@@ -8,7 +8,9 @@ It is important to note that one must use a service / global account found in th
 JQL in this add-on can be changed. It is defaulted to "updated > -2m" but the actual value is its URL-encoded equivalent, i.e. "updated+%3E+-2m". If you wish to change the JQL, which is doable during setup of a new input, make sure that the interval is relative to the JQL. For example, if you want to modify it to the logic "all issues updated within the last 15 minutes", you have to change the interval to 900 (seconds or 15 minutes).
 
 Learn more about Atlassian REST API v2: https://developer.atlassian.com/cloud/jira/platform/rest/v2/ 
+
 Learn more about JQL: https://confluence.atlassian.com/jirasoftwarecloud/advanced-searching-764478330.html 
+
 Convert JQL to URL-encoded: https://www.url-encode-decode.com/ 
 
 ### Splunkbase
