@@ -1,3 +1,5 @@
 # Splunk-generated passwords
 passwords.conf
 splunk.secret
+local.meta
+local/
