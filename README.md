@@ -1,7 +1,7 @@
 ## Overview
 Uses Atlassian REST API v2 to collect Jira issues by querying your remote Jira for all issues updated in the last 2 minutes (default).
 
-The basic premise is that Jira Issues will contain new information, like status change, new assignees, or new issues created. That's why this add-on uses the JQL (Jira Query Language) logic "get all issues updated in the last 2 minutes", which runs every 2 minutes. It then parses the JSON response from the REST API and looks for the field "updated", (found in the JSON path issues[*].fields.updated) to set the event's _time. Each array element in the issues[*] array list is an event. This is equivalent to saying each issue is an event. Hence, it is important to dedup your events by key or id.
+The basic premise is that Jira Issues will contain new information, like status change, new assignees, or new issues created. That's why this add-on uses the JQL (Jira Query Language) logic "get all issues updated in the last 2 minutes", which runs every 2 minutes. It then parses the JSON response from the REST API and looks for the field "updated", (found in the JSON path issues[\*].fields.updated) to set the event's _time. Each array element in the issues[\*] array list is an event. This is equivalent to saying each issue is an event. Hence, it is important to dedup your events by key or id.
 
 It is important to note that one must use a service / global account found in the configure page. Enter the the username of the service account and API Token for password. To know more about API Tokens of Atlassian, visit https://confluence.atlassian.com/cloud/api-tokens-938839638.html
 
