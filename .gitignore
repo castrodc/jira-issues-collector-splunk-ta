@@ -2,4 +2,4 @@
 passwords.conf
 splunk.secret
 local.meta
-local/
+TA-jira-issues-collector/local/
