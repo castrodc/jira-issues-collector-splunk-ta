@@ -2,7 +2,7 @@
     "meta": {
         "name": "TA-jira-issues-collector",
         "displayName": "Jira Issues Collector",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "apiVersion": "3.0.0",
         "restRoot": "TA_jira_issues_collector"
     },
@@ -172,15 +172,15 @@
                     },
                     {
                         "field": "jql",
-                        "label": "JQL (URL Encoded)"
-                    },
-                    {
-                        "field": "fields",
-                        "label": "Fields"
+                        "label": "Jira Query Language (JQL)"
                     },
                     {
                         "field": "service_account",
                         "label": "Service Account"
+                    },
+                    {
+                        "field": "fields",
+                        "label": "Fields"
                     }
                 ],
                 "actions": [
@@ -192,8 +192,8 @@
             },
             "services": [
                 {
-                    "name": "jira_issues_collector",
-                    "title": "Jira Issues Collector",
+                    "name": "jira_comments_collector",
+                    "title": "Jira Comments Collector",
                     "entity": [
                         {
                             "field": "name",
@@ -264,13 +264,120 @@
                                 }
                             ],
                             "options": {
-                                "placeholder": "https://mycompany.atlassian.net/"
+                                "placeholder": "mycompany.atlassian.net"
                             }
                         },
                         {
                             "field": "jql",
-                            "label": "JQL (URL Encoded)",
+                            "label": "Jira Query Language (JQL)",
                             "help": "Defaults to the logic \"all issues updated in the past 2 min\". The JQL must be URL-encoded, e.g. \"updated > -2m\" is translated to \"updated+%3E+-2m\" (withouth the quotes).",
+                            "required": false,
+                            "type": "text",
+                            "defaultValue": "updated+%3E+-2m",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 8192,
+                                    "errorMsg": "Max length of text input is 8192"
+                                }
+                            ],
+                            "options": {
+                                "placeholder": "updated+%3E+-2m"
+                            }
+                        },
+                        {
+                            "field": "service_account",
+                            "label": "Service Account",
+                            "help": "",
+                            "required": true,
+                            "type": "singleSelect",
+                            "options": {
+                                "referenceName": "account"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "jira_issues_collector",
+                    "title": "Jira Issues Collector",
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Name",
+                            "type": "text",
+                            "help": "Enter a unique name for the data input",
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z]\\w*$",
+                                    "errorMsg": "Input Name must start with a letter and followed by alphabetic letters, digits or underscores."
+                                },
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 100,
+                                    "errorMsg": "Length of input name should be between 1 and 100"
+                                }
+                            ]
+                        },
+                        {
+                            "field": "interval",
+                            "label": "Interval",
+                            "type": "text",
+                            "required": true,
+                            "help": "Time interval of input in seconds.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^\\-[1-9]\\d*$|^\\d*$",
+                                    "errorMsg": "Interval must be an integer."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "singleSelect",
+                            "defaultValue": "default",
+                            "options": {
+                                "endpointUrl": "data/indexes",
+                                "blackList": "^_.*$",
+                                "createSearchChoice": true
+                            },
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80,
+                                    "errorMsg": "Length of index name should be between 1 and 80."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "site_url",
+                            "label": "Site URL",
+                            "help": "If your remote Jira URL is \"https://mycompany.atlassian.net/\", enter \"mycompany.atlassian.net\" in this textfield (without the quotes).",
+                            "required": true,
+                            "type": "text",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 8192,
+                                    "errorMsg": "Max length of text input is 8192"
+                                }
+                            ],
+                            "options": {
+                                "placeholder": "mycompany.atlassian.net"
+                            }
+                        },
+                        {
+                            "field": "jql",
+                            "label": "Jira Querly Language (JQL)",
+                            "help": "Defaults to the logic \"all issues updated in the past 2 min\". The JQL must be URL-encoded, e.g. \"updated > -2m\" is translated to \"updated+%3E+-2m\" (without the quotes).",
                             "required": false,
                             "type": "text",
                             "defaultValue": "updated+%3E+-2m",
@@ -289,7 +396,7 @@
                         {
                             "field": "fields",
                             "label": "Fields",
-                            "help": "Comma-separated values. Feel free to add / remove fields to your liking. There will always be the fields \"id\", \"key\", \"status\", and \"updated\", which serve as default.",
+                            "help": "Comma-separated values. Feel free to add / remove fields to your liking. There will always be the fields \"id\", \"key\", \"status\", and \"updated\", which serve as default. DO NOT add the field \"comment\".",
                             "required": false,
                             "type": "text",
                             "defaultValue": "project,issuetype,summary,description,creator,assignee,reporter,created,duedate,aggregatetimespent",
@@ -300,7 +407,10 @@
                                     "maxLength": 8192,
                                     "errorMsg": "Max length of text input is 8192"
                                 }
-                            ]
+                            ],
+                            "options": {
+                                "placeholder": "project,issuetype,summary,description,creator,assignee,reporter,created,duedate,aggregatetimespent"
+                            }
                         },
                         {
                             "field": "service_account",
