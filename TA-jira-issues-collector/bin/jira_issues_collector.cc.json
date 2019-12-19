@@ -22,7 +22,7 @@
                 "pipeline": []
             },
             "request": {
-                "url": "https://{{site_url}}/rest/api/2/search?jql={{jql}}&fields=id,key,status,updated,{{fields}}&maxResults=100",
+                "url": "https://{{site_url}}/rest/api/2/search?jql={{jql}}&maxResults=100&fields=id,key,status,updated,{{fields}}",
                 "method": "GET",
                 "headers": {
                     "Accept": "application/json"
