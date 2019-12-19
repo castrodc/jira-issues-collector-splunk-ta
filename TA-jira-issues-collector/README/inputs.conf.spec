@@ -1,7 +1,7 @@
 [jira_comments_collector://<name>]
 site_url = If your remote Jira URL is https://mycompany.atlassian.net, enter "mycompany.atlassian.net" in this textfield (without the quotes).
 jql = Defaults to the logic "all issues updated in the past 2 min". The JQL must be URL-encoded, e.g. "updated > -2m" is translated to "updated+%3E+-2m" (withouth the quotes).
-service_account = 
+service_account = Configure your service account in Configure page.
 
 [jira_issues_collector://<name>]
 site_url = If your remote Jira URL is "https://mycompany.atlassian.net/", enter "mycompany.atlassian.net" in this textfield (without the quotes).
