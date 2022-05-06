@@ -4,3 +4,4 @@ splunk.secret
 local.meta
 TA-jira-issues-collector/local/
 *.pyc
+*.pyo
